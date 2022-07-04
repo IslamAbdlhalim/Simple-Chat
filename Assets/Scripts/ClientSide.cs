@@ -41,7 +41,7 @@ public class ClientSide : MonoBehaviour
 
       try
       {
-         _client.Send(message, message.Length);
+         _client.SendAsync(message, message.Length);
       }
       catch (Exception e)
       {

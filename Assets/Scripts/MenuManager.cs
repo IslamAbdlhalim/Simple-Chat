@@ -12,15 +12,14 @@ namespace Menu
         private TMP_InputField _hostPort;
         public static int Port;
     
-        public void LoadClient()
+        private static void LoadClient()
         {
             SceneManager.LoadScene(2);
         }
 
-        public void LoadHost()
+        private void LoadHost()
         {
             Port = int.Parse(_hostPort.text);
-            Debug.Log(Port);
             SceneManager.LoadScene(1);
         }
     }

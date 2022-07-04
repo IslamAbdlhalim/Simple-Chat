@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using Menu;
 using TMPro;
@@ -14,16 +15,22 @@ public class HostSide : MonoBehaviour
     static byte[] _messageReceived;
     static IPEndPoint _endPoint = new IPEndPoint(IPAddress.Any, _port);
     static UdpClient _hostClient = new UdpClient(_endPoint);
-    
-    public void ReceiveMessage()
+    [SerializeField]
+    GameObject _myPrefab;
+    public async void ReceiveMessage()
     {
         try
         {
-            byte[] byteReceived = _hostClient.Receive(ref _endPoint);
-            string messageReceived = Encoding.ASCII.GetString(byteReceived);
+            UdpReceiveResult byteReceived = await _hostClient.ReceiveAsync();
+
+            _messageReceived = byteReceived.Buffer;
+            string messageReceived = Encoding.ASCII.GetString(_messageReceived);
             _textField.text = messageReceived;
+            Instantiate(_myPrefab, new Vector3(1f, 0f, 0f), Quaternion.identity);
         }
         catch (Exception e)
         {}
     }
+
+   
 }
